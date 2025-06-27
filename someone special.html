@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>💖 For Shanvi 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffe6f0, #ffe6ff);
+      color: #333;
+      text-align: center;
+      padding: 30px;
+      overflow-x: hidden;
+    }
+    h1 {
+      font-size: 2.5em;
+      transform: rotate(-8deg);
+      display: inline-block;
+      color: #ff66a3;
+    }
+    button {
+      background-color: #ff80bf;
+      border: none;
+      padding: 15px 25px;
+      margin: 10px;
+      font-size: 18px;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #ff4da6;
+    }
+    .message-box {
+      margin-top: 20px;
+      font-size: 20px;
+      padding: 10px;
+      color: #cc0066;
+    }
+    #replySection {
+      margin-top: 40px;
+      background-color: #fff0f5;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    #replySection input, #replySection textarea {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    #replyDisplay {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #99004d;
+    }
+    .hearts {
+      font-size: 2rem;
+      animation: burst 1s ease-out forwards;
+      color: red;
+      margin-top: 10px;
+    }
+    @keyframes burst {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1.3); opacity: 1; }
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+  </audio>
+
+  <h1>Shanvi 💖</h1>
+
+  <div class="message-box" id="mainMessage">
+    I like you because you're you. 💕
+  </div>
+
+  <button onclick="showMessage('I don\'t know why I love you, I just do...')">Why I Love You</button>
+  <button onclick="showMessage('My favorite memories are when you also realized the meaning of love. Actually, we both understand it deeply. ❤️')">Favorite Memories</button>
+  <button onclick="showMessage('My future plan with you is to build a happy, loving family. 👨‍👩‍👧')">Our Future</button>
+  <button onclick="showMessage('Plz send me some of your cute pics... I want to keep you in my memories forever 💫')">Request Something</button>
+
+  <br><br>
+  <button onclick="revealNextLove()">Click this</button>
+  <div class="message-box" id="loveWords"></div>
+
+  <div id="replySection">
+    <h2>💬 Your Reply</h2>
+    <input type="text" id="replyName" placeholder="Your name">
+    <textarea id="replyText" rows="4" placeholder="Type your message here..."></textarea>
+    <br>
+    <button onclick="postReply()">Send Reply</button>
+    <div id="replyDisplay"></div>
+    <div class="hearts" id="heartBurst" style="display: none;">❤️💖❤️</div>
+  </div>
+
+  <script>
+    function showMessage(msg) {
+      document.getElementById('mainMessage').innerText = msg;
+    }
+
+    const lovePhrases = ["My jaan ❤️", "My world 🌍", "My darling 💖", "My baccha 🧸"];
+    let index = 0;
+    function revealNextLove() {
+      if (index < lovePhrases.length) {
+        document.getElementById("loveWords").innerText = lovePhrases[index];
+        index++;
+      } else {
+        document.getElementById("loveWords").innerText = "I love you forever 💗";
+      }
+    }
+
+    function postReply() {
+      const name = document.getElementById("replyName").value.trim();
+      const text = document.getElementById("replyText").value.trim();
+      if (!name || !text) {
+        alert("Please enter your name and message.");
+        return;
+      }
+
+      const replyDisplay = document.getElementById("replyDisplay");
+      const previousReplies = JSON.parse(localStorage.getItem("replies")) || [];
+      const newReply = `<strong>${name} says:</strong><br>\"${text}\"`;
+      previousReplies.push(newReply);
+      localStorage.setItem("replies", JSON.stringify(previousReplies));
+
+      replyDisplay.innerHTML = previousReplies.join("<br><br>");
+      document.getElementById("replyText").value = "";
+
+      // Show heart animation
+      const heart = document.getElementById("heartBurst");
+      heart.style.display = "block";
+      heart.style.animation = "none";
+      heart.offsetHeight; // trigger reflow
+      heart.style.animation = "burst 1s ease-out forwards";
+    }
+
+    window.onload = function() {
+      const savedReplies = JSON.parse(localStorage.getItem("replies"));
+      if (savedReplies && savedReplies.length > 0) {
+        document.getElementById("replyDisplay").innerHTML = savedReplies.join("<br><br>");
+      }
+    }
+  </script>
+</body>
+</html>
+
